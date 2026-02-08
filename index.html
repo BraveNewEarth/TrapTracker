@@ -7,8 +7,8 @@
     <title>Trap Tracker — Track Every Trap. Control Every Property.</title>
     <meta name="description"
         content="GPS-enabled trap management for property managers, homeowners, and pest control professionals. Works offline. Photo-first workflow.">
-    <!-- Updated asset name: app-logo.png -->
-    <link rel="icon" type="image/png" href="app-logo.png">
+    <!-- Updated asset name: app-icon-150.png -->
+    <link rel="icon" type="image/png" href="app-icon-150.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,12 +79,16 @@
             text-decoration: none;
         }
 
+        .nav-logo picture {
+            display: flex;
+            align-items: center;
+        }
+
         .nav-logo img {
+            width: 44px;
             height: 44px;
-            width: auto;
-            /* Let width adjust naturally */
             border-radius: 8px;
-            /* Slightly tighter radius for non-square */
+            object-fit: contain;
         }
 
         .nav-logo-text {
@@ -606,10 +610,16 @@
             gap: 0.75rem;
         }
 
+        .footer-brand picture {
+            display: flex;
+            align-items: center;
+        }
+
         .footer-brand img {
             width: 36px;
             height: 36px;
             border-radius: 8px;
+            object-fit: contain;
         }
 
         .footer-brand span {
@@ -742,7 +752,11 @@
     <!-- Navigation -->
     <nav class="nav" id="nav">
         <a href="#" class="nav-logo">
-            <img src="app-logo.png" alt="Trap Tracker Logo">
+            <!-- Prefer WebP -->
+            <picture>
+                <source srcset="app-icon-150.webp" type="image/webp">
+                <img src="app-icon-150.png" alt="Trap Tracker Logo" width="44" height="44">
+            </picture>
             <span class="nav-logo-text">TRAP<span>TRACKER</span></span>
         </a>
         <a href="#pricing" class="nav-cta">Get the App</a>
@@ -1051,7 +1065,10 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-brand">
-                <img src="app-logo.png" alt="Trap Tracker" height="36" width="auto" loading="lazy">
+                <picture>
+                    <source srcset="app-icon-150.webp" type="image/webp">
+                    <img src="app-icon-150.png" alt="Trap Tracker" height="36" width="36" loading="lazy">
+                </picture>
                 <span>Trap Tracker</span>
             </div>
 
@@ -1174,4 +1191,4 @@
 </body>
 
 </html>
-<!-- Updated: 2026-02-08 16:18:21 Logo Fix -->
+<!-- Updated: 2026-02-08 16:32:19 Using 150px Icon -->
