@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Trap Tracker</title>
+    <meta name="description"
+        content="Trap Tracker privacy policy. We respect your privacy and do not collect personal data.">
+    <link rel="icon" type="image/png" href="images/icon1-watchOS-Default-1088x1088_1x.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --forest-deep: #0a1410;
+            --forest-dark: #0f1b14;
+            --forest-mid: #1a2e22;
+            --forest-light: #243a2c;
+            --teal: #4ecdc4;
+            --teal-dim: #3ba89f;
+            --gold: #f4a261;
+            --red: #e63946;
+            --cream: #f8f6f0;
+            --text-primary: #e8efe9;
+            --text-muted: #8fa898;
+            --card-bg: rgba(26, 46, 34, 0.8);
+            --card-border: rgba(78, 205, 196, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--forest-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        .nav {
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--forest-deep);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+        }
+
+        .nav-logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--cream);
+        }
+
+        .nav-logo-text span {
+            color: var(--red);
+        }
+
+        .nav-back {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-back:hover {
+            opacity: 0.8;
+        }
+
+        .nav-back svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-updated {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .content-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .content-section ul {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .content-section li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .content-section li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 8px;
+            height: 8px;
+            background: var(--teal);
+            border-radius: 50%;
+        }
+
+        .highlight-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        .contact-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .contact-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 2rem;
+            background: var(--forest-deep);
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            .nav {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">
+            <img src="icon1-watchOS-Default-1088x1088_1x.png" alt="Trap Tracker Logo">
+            <span class="nav-logo-text">TRAP<span>TRACKER</span></span>
+        </a>
+        <a href="index.html" class="nav-back">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <header class="page-header">
+            <h1 class="page-title">Privacy Policy</h1>
+            <p class="page-updated">Last updated: January 2026</p>
+        </header>
+
+        <section class="content-section">
+            <p><strong>Trap Tracker respects your privacy.</strong> This app is designed to function without collecting
+                or sharing personal data.</p>
+        </section>
+
+        <section class="content-section">
+            <h2>What Data We Collect</h2>
+            <p>Trap Tracker does <strong>not</strong> collect, track, or transmit personal information.</p>
+            <ul>
+                <li>No user accounts</li>
+                <li>No analytics</li>
+                <li>No advertising trackers</li>
+                <li>No third-party data sharing</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Location Data</h2>
+            <p>Location data is used <strong>only</strong> when you choose to use GPS-based features, such as placing a
+                trap using a photo's embedded location.</p>
+            <p>Location information:</p>
+            <ul>
+                <li>Is processed locally on your device</li>
+                <li>Is never sold or shared</li>
+                <li>Is never guessed or inferred</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Photos</h2>
+            <p>Photos you take or upload are stored locally on your device and used only to help you visually identify
+                trap locations.</p>
+            <div class="highlight-box">
+                <p>Photos are never uploaded, analyzed by third parties, or shared.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Offline Use & Sync</h2>
+            <p>Trap Tracker works offline. Data remains on your device and syncs only when connectivity is available.
+            </p>
+        </section>
+
+        <section class="content-section">
+            <h2>Your Control</h2>
+            <p>You are always in control of your data:</p>
+            <ul>
+                <li>GPS is never guessed—it comes only from photo metadata or manual placement</li>
+                <li>Manual placements are never overridden without your confirmation</li>
+                <li>All trap data can be deleted at any time</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Contact</h2>
+            <p>If you have questions about this privacy policy, contact us at:</p>
+            <p><a href="mailto:ecohood+traptracker@gmail.com" class="contact-link">ecohood+traptracker@gmail.com</a></p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-copy">© 2026 Trap Tracker. Track Every Trap. Control Every Property.</p>
+    </footer>
+</body>
+
+</html>

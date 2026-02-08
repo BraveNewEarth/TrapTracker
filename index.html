@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trap Tracker — Track Every Trap. Control Every Property.</title>
+    <meta name="description"
+        content="GPS-enabled trap management for property managers, homeowners, and pest control professionals. Works offline. Photo-first workflow.">
+    <!-- Updated asset name: app-icon.png -->
+    <link rel="icon" type="image/png" href="app-icon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+      PERFORMANCE NOTE:
+      Removed explicit <link rel="preload"> to avoid double-downloading (e.g. preloading JPG when WebP is used).
+      The hero image now uses fetchpriority="high" which signals importance to the browser scanner immediately.
+    -->
+
+    <style>
+        :root {
+            --forest-deep: #0a1410;
+            --forest-dark: #0f1b14;
+            --forest-mid: #1a2e22;
+            --forest-light: #243a2c;
+            --teal: #4ecdc4;
+            --teal-dim: #3ba89f;
+            --gold: #f4a261;
+            --red: #e63946;
+            --cream: #f8f6f0;
+            --text-primary: #e8efe9;
+            --text-muted: #8fa898;
+            --card-bg: rgba(26, 46, 34, 0.8);
+            --card-border: rgba(78, 205, 196, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--forest-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(10, 20, 16, 0.95), transparent);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+        }
+
+        .nav-logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--cream);
+        }
+
+        .nav-logo-text span {
+            color: var(--red);
+        }
+
+        .nav-cta {
+            background: var(--cream);
+            color: var(--forest-deep);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-cta:hover {
+            background: var(--teal);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Hero Section - Full Screen Backdrop */
+        .hero {
+            min-height: 100vh;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--forest-deep);
+        }
+
+        /* Custom Green Blur Background - Global (Mobile & Desktop) */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            /* Instant CSS gradient replaces specific PNG */
+            background: radial-gradient(ellipse at center,
+                    rgba(26, 46, 34, 0.9) 0%,
+                    rgba(15, 27, 20, 0.95) 40%,
+                    rgba(10, 20, 16, 1) 100%);
+            z-index: 0;
+        }
+
+        /* Hero Image Styles */
+        .hero-poster {
+            /* Mobile: contain image to show green background around it */
+            width: 100%;
+            height: 100%;
+            max-height: 85vh;
+            /* Leave room for scroll hint */
+            object-fit: contain;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Mobile: show background */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1rem;
+            }
+        }
+
+        /* Desktop: specific image sizing */
+        @media (min-width: 769px) {
+            .hero {
+                background-image: none !important;
+                background-size: contain;
+            }
+
+            .hero-poster {
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 95vh;
+                object-fit: contain;
+                z-index: 1;
+                margin: 0 auto;
+            }
+        }
+
+        /* Subtle overlay for better contrast */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                    transparent 0%,
+                    transparent 60%,
+                    rgba(10, 20, 16, 0.4) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Scroll Hint */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--cream);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+            z-index: 3;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        .scroll-hint svg {
+            width: 24px;
+            height: 24px;
+            opacity: 0.6;
+        }
+
+        /* Screenshots Carousel */
+        .screenshots {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--forest-deep) 0%, var(--forest-dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: rgba(78, 205, 196, 0.1);
+            color: var(--teal);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 2rem 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-item {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            width: 280px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.02);
+        }
+
+        /* Ensure images inside carousel take full width of card */
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            /* Maintain aspect ratio */
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            display: block;
+        }
+
+        .carousel-item-caption {
+            position: absolute;
+            bottom: -3rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .carousel-item-caption h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .carousel-item-caption p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 4rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--forest-light);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .carousel-dot.active,
+        .carousel-dot:hover {
+            background: var(--teal);
+            transform: scale(1.2);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--forest-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--teal);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dim));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--forest-deep);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .workflow {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--forest-dark) 0%, var(--forest-mid) 100%);
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .workflow-step {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--gold), #e8923c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--forest-deep);
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .step-content .tip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--teal);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            padding: 5rem 2rem;
+            background: var(--forest-mid);
+            text-align: center;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            color: var(--teal);
+            line-height: 1;
+            opacity: 0.3;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-style: italic;
+            max-width: 700px;
+            margin: -2rem auto 1.5rem;
+            line-height: 1.6;
+        }
+
+        .quote-author {
+            color: var(--teal);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 6rem 2rem;
+            background: var(--forest-dark);
+        }
+
+        .pricing-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, var(--forest-mid), var(--forest-light));
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--gold));
+        }
+
+        .price {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .price-note {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .pricing-features li svg {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: var(--teal);
+        }
+
+        .pricing-cta {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--cream);
+            color: var(--forest-deep);
+            padding: 1.1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+        }
+
+        .pricing-cta:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(248, 246, 240, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            background: var(--forest-deep);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .footer-brand span {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--teal);
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 20, 16, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            cursor: pointer;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 400px;
+            max-height: 85vh;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            cursor: default;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: var(--forest-mid);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--forest-light);
+        }
+
+        .lightbox-close svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-primary);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 5rem 1rem 3rem;
+            }
+
+            .hero-poster {
+                max-width: 100%;
+            }
+
+            .carousel-item {
+                width: 240px;
+            }
+
+            .workflow-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-number {
+                align-self: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav-logo">
+            <img src="app-icon.png" alt="Trap Tracker Logo" width="44" height="44">
+            <span class="nav-logo-text">TRAP<span>TRACKER</span></span>
+        </a>
+        <a href="#pricing" class="nav-cta">Get the App</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <!-- 
+            Hero Image Optimization:
+            1. Use <picture> to serve WebP (100-200KB) vs JPG (500KB+).
+            2. fetchpriority="high" signals immediate importance.
+            3. decoding="async" prevents main thread blocking.
+            4. Explicit width/height prevents layout shift (CLS).
+        -->
+        <picture>
+            <source srcset="hero-poster.webp" type="image/webp">
+            <img src="hero-poster.jpg" alt="Trap Tracker application screenshot showing map view" class="hero-poster"
+                fetchpriority="high" decoding="async" width="1188" height="1631">
+        </picture>
+
+        <div class="scroll-hint">
+            <span>Scroll to explore</span>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- Screenshots Carousel -->
+    <section class="screenshots" id="screenshots">
+        <div class="section-header fade-in">
+            <div class="section-tag">App Screenshots</div>
+            <h2 class="section-title">See It In Action</h2>
+            <p class="section-subtitle">A professional tool designed for the field. Dark theme, clear status indicators,
+                and photo-first workflow.</p>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- 
+                     Carousel Optimization:
+                     1. Lowercase filenames.
+                     2. WebP source + PNG fallback.
+                     3. loading="lazy" + fetchpriority="low" for off-screen images.
+                -->
+                <div class="carousel-item" data-img="screenshot-dashboard.webp">
+                    <picture>
+                        <source srcset="screenshot-dashboard.webp" type="image/webp">
+                        <img src="screenshot-dashboard.png" alt="Dashboard with activity feed" loading="lazy"
+                            fetchpriority="low" decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>📍 Know Where Every Trap Is</h4>
+                        <p>Dashboard overview with activity</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-map.webp">
+                    <picture>
+                        <source srcset="screenshot-map.webp" type="image/webp">
+                        <img src="screenshot-map.png" alt="Map view with photo markers" loading="lazy"
+                            fetchpriority="low" decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>🗺️ Interactive Map</h4>
+                        <p>Photo markers show exact locations</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-trap-photo.webp">
+                    <picture>
+                        <source srcset="screenshot-trap-photo.webp" type="image/webp">
+                        <img src="screenshot-trap-photo.png" alt="Trap photo card" loading="lazy" fetchpriority="low"
+                            decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>📸 Visual Memory</h4>
+                        <p>Photos help you remember placement</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-trap-details.webp">
+                    <picture>
+                        <source srcset="screenshot-trap-details.webp" type="image/webp">
+                        <img src="screenshot-trap-details.png" alt="Trap details card" loading="lazy"
+                            fetchpriority="low" decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>📋 Full Details</h4>
+                        <p>Check history, frequency, notes</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-projects.webp">
+                    <picture>
+                        <source srcset="screenshot-projects.webp" type="image/webp">
+                        <img src="screenshot-projects.png" alt="Projects list" loading="lazy" fetchpriority="low"
+                            decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>📁 Organize by Project</h4>
+                        <p>Manage multiple properties</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-pest-library.webp">
+                    <picture>
+                        <source srcset="screenshot-pest-library.webp" type="image/webp">
+                        <img src="screenshot-pest-library.png" alt="Pest Library" loading="lazy" fetchpriority="low"
+                            decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>🐀 Pest Library</h4>
+                        <p>Species info and trap recommendations</p>
+                    </div>
+                </div>
+
+                <div class="carousel-item" data-img="screenshot-settings.webp">
+                    <picture>
+                        <source srcset="screenshot-settings.webp" type="image/webp">
+                        <img src="screenshot-settings.png" alt="Settings and how it works" loading="lazy"
+                            fetchpriority="low" decoding="async" width="922" height="2000">
+                    </picture>
+                    <div class="carousel-item-caption">
+                        <h4>⚙️ How It Works</h4>
+                        <p>Built-in guidance for best results</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-nav" id="carouselNav"></div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-header fade-in">
+            <div class="section-tag">Key Features</div>
+            <h2 class="section-title">Built for the Field</h2>
+            <p class="section-subtitle">Professional tools that work without cellular service, designed for real-world
+                pest control.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3>Photo-First Workflow</h3>
+                <p>Take a photo in the field. If your camera has location enabled, Trap Tracker automatically places the
+                    trap using the photo's GPS data. No typing coordinates.</p>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3>GPS Mapping</h3>
+                <p>Every trap appears on an interactive map with satellite imagery. Tap any marker to see details, log
+                    catches, or get directions. Never wonder where you put that trap again.</p>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+                    </svg>
+                </div>
+                <h3>Offline-First Design</h3>
+                <p>Works without cellular service. Your data syncs automatically when a connection is available. Perfect
+                    for rural properties, vineyards, and remote land.</p>
+            </div>
+
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                    </svg>
+                </div>
+                <h3>Color-Coded Status</h3>
+                <p>Green means good. Amber means due soon. Red means overdue or needs attention. See what needs checking
+                    at a glance without reading every detail.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="workflow" id="workflow">
+        <div class="section-header fade-in">
+            <div class="section-tag">How It Works</div>
+            <h2 class="section-title">Simple by Design</h2>
+            <p class="section-subtitle">Get started in under a minute. No account required.</p>
+        </div>
+
+        <div class="workflow-steps">
+            <div class="workflow-step fade-in">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Take a Photo</h3>
+                    <p>When you place a trap, take a photo. If your camera has location enabled, Trap Tracker
+                        automatically extracts the GPS coordinates and places the trap on your map.</p>
+                    <span class="tip">💡 Enable Precise Location for best results</span>
+                </div>
+            </div>
+
+            <div class="workflow-step fade-in">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Or Place Manually</h3>
+                    <p>If a photo doesn't include GPS—or if you want to place traps ahead of time—long-press anywhere on
+                        the map to drop a pin. Adjust if needed, save, and add a photo later.</p>
+                </div>
+            </div>
+
+            <div class="workflow-step fade-in">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Check & Update</h3>
+                    <p>When you check a trap, log the result: Good, Caught, Sprung, or Maintenance. The schedule resets
+                        automatically, and you'll always know what needs attention next.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote -->
+    <section class="quote-section">
+        <div class="fade-in">
+            <div class="quote-mark">"</div>
+            <p class="quote-text">
+                Born from real-world challenges at Rogue Kiwi Ranch—managing traps across vineyards using only physical
+                flags. Trap Tracker eliminates the guesswork and provides a professional digital solution that works
+                without cellular service.
+            </p>
+            <p class="quote-author">— Built by Property Managers, for Property Managers</p>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="section-header fade-in">
+            <div class="section-tag">Simple Pricing</div>
+            <h2 class="section-title">One Price. Forever.</h2>
+        </div>
+
+        <div class="pricing-card fade-in">
+            <div class="price">$4.99</div>
+            <p class="price-note">One-time purchase. No subscriptions. No ads.</p>
+
+            <ul class="pricing-features">
+                <li>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Unlimited traps and projects
+                </li>
+                <li>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Photo-first GPS placement
+                </li>
+                <li>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Works offline in the field
+                </li>
+                <li>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    All future updates included
+                </li>
+                <li>
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    No account required
+                </li>
+            </ul>
+
+            <a href="#" class="pricing-cta">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                </svg>
+                Download on the App Store
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="app-icon.png" alt="Trap Tracker" width="36" height="36" loading="lazy">
+                <span>Trap Tracker</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="mailto:ecohood+traptracker@gmail.com">Contact</a>
+            </div>
+
+            <p class="footer-copy">© 2026 Trap Tracker. Track Every Trap. Control Every Property.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image Preview">
+        <button class="lightbox-close" aria-label="Close Preview" id="lightboxCloseBtn">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <img src="" alt="Screenshot preview" id="lightboxImg">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carousel
+            const track = document.getElementById('carouselTrack');
+            const navContainer = document.getElementById('carouselNav');
+
+            if (track && navContainer) {
+                const items = track.querySelectorAll('.carousel-item');
+
+                // Create dots
+                items.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                    dot.addEventListener('click', () => {
+                        items[i].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    });
+                    navContainer.appendChild(dot);
+                });
+
+                const dots = navContainer.querySelectorAll('.carousel-dot');
+
+                // Update active dot on scroll
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const index = Array.from(items).indexOf(entry.target);
+                            dots.forEach((dot, i) => {
+                                dot.classList.toggle('active', i === index);
+                            });
+                        }
+                    });
+                }, { root: track, threshold: 0.5 });
+
+                items.forEach(item => observer.observe(item));
+
+                // Lightbox with scroll locking and proper close handlers
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightboxImg');
+                const closeBtn = document.getElementById('lightboxCloseBtn');
+
+                if (lightbox && lightboxImg) {
+                    const openLightbox = (src) => {
+                        lightboxImg.src = src;
+                        lightbox.classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Prevent background scroll
+                        closeBtn.focus();
+                    };
+
+                    const closeLightbox = () => {
+                        lightbox.classList.remove('active');
+                        document.body.style.overflow = ''; // Restore scroll
+                        lightboxImg.src = ''; // Clear source
+                    };
+
+                    items.forEach(item => {
+                        item.addEventListener('click', () => {
+                            const imgName = item.dataset.img;
+                            if (imgName) {
+                                openLightbox(imgName);
+                            }
+                        });
+                    });
+
+                    lightbox.addEventListener('click', (e) => {
+                        if (e.target === lightbox) {
+                            closeLightbox();
+                        }
+                    });
+
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', closeLightbox);
+                    }
+
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                            closeLightbox();
+                        }
+                    });
+                }
+            }
+
+            // Fade in on scroll
+            const fadeElements = document.querySelectorAll('.fade-in');
+            if (fadeElements.length > 0) {
+                const fadeObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                fadeElements.forEach(el => fadeObserver.observe(el));
+            }
+        });
+    </script>
+</body>
+
+</html>
+<!-- Updated: 2026-02-08 15:03:00 Optimized Version -->
