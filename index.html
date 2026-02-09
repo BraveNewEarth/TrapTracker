@@ -879,10 +879,25 @@
 
         .audience-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            /* Mobile: 1 column, Tablet: 2 columns */
+            grid-template-columns: repeat(1, 1fr);
             gap: 1.5rem;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
+        }
+
+        /* Tablet: 2 columns */
+        @media (min-width: 600px) {
+            .audience-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Desktop: Force 4 columns to keep all cards in one row */
+        @media (min-width: 900px) {
+            .audience-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .audience-card {
@@ -892,16 +907,30 @@
             border: 1px solid var(--card-border);
             border-radius: 12px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .audience-card:hover {
             transform: translateY(-4px);
             border-color: var(--gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .audience-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--gold), #e8923c);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audience-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--forest-deep);
         }
 
         .audience-card h3 {
@@ -1399,22 +1428,46 @@
 
         <div class="audience-grid">
             <div class="audience-card fade-in">
-                <div class="audience-icon">🪤</div>
+                <div class="audience-icon">
+                    <!-- Heroicon: Bug/Pest -->
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                </div>
                 <h3>Pest Control Technicians</h3>
                 <p>Perfect for Terminix, Orkin, or independent operators managing rodent control routes</p>
             </div>
             <div class="audience-card fade-in">
-                <div class="audience-icon">🏢</div>
+                <div class="audience-icon">
+                    <!-- Heroicon: Building Office -->
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                    </svg>
+                </div>
                 <h3>Property Managers</h3>
                 <p>Track pest control across multiple rental properties and commercial buildings</p>
             </div>
             <div class="audience-card fade-in">
-                <div class="audience-icon">🌾</div>
+                <div class="audience-icon">
+                    <!-- Heroicon: Globe/Land -->
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
+                    </svg>
+                </div>
                 <h3>Ranch Managers</h3>
                 <p>Manage gopher, ground squirrel, and wildlife traps across large acreage</p>
             </div>
             <div class="audience-card fade-in">
-                <div class="audience-icon">🍇</div>
+                <div class="audience-icon">
+                    <!-- Heroicon: Sparkles/Crop -->
+                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                    </svg>
+                </div>
                 <h3>Vineyard Operators</h3>
                 <p>Protect crops with precise trap placement and offline field access</p>
             </div>
