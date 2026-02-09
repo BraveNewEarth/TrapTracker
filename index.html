@@ -174,10 +174,20 @@
             z-index: 1;
         }
 
-        /* Mobile: show background */
+        /* Mobile: position image tight against header */
         @media (max-width: 768px) {
             .hero {
-                padding: 1rem;
+                /* Align content to start from top, not bottom */
+                justify-content: flex-start;
+                /* Padding: nav height (~70px) + small gap */
+                padding: 70px 0.5rem 0.5rem 0.5rem;
+            }
+
+            .hero-poster {
+                /* Allow image to use more vertical space on mobile */
+                max-height: calc(100vh - 90px);
+                /* Slight top margin for breathing room */
+                margin-top: 0;
             }
         }
 
